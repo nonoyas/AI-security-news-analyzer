@@ -111,13 +111,14 @@ else:
             f"The following is a collection of recent cybersecurity news articles. Each article is separated by '--- Article [번호] ---'.\n\n"
             f"{overall_input_text}\n\n"
             f"Based on all these articles, provide a comprehensive overview of the current cybersecurity landscape, "
-            f"major trends, and key implications for the industry. Group similar points and synthesize them "
-            f"into 3-5 concise, actionable paragraphs. Focus on general insights rather than specific examples. "
-            f"Structure your response with clear headings if applicable. "
+            f"major trends, and key implications for the industry. "
+            f"Group similar points and synthesize them into 3-5 concise, actionable paragraphs. "
+            f"Structure your response with clear headings (e.g., '1. [Trend Name]'). "
+            f"For each major trend, within the 'Insight' section, connect the insight with specific, factual examples or relevant entities/events mentioned in the provided articles. "  # <-- 이 줄 수정
             f"Start with a strong summary sentence, then use bullet points or numbered lists for the main insights. "
+            f"Ensure the 'Insight' section directly references real-world events or named entities from the articles to illustrate the point. "  # <-- 이 줄 추가
             f"Provide an overall conclusion or outlook."
         )
-
         overall_summary = ""
         try:
             print("  Gemini 상위 레벨 종합 인사이트 추출 중 (단 1회 API 호출)...")
