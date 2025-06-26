@@ -108,16 +108,28 @@ else:
     else:
         # Gemini 모델에 입력할 프롬프트 생성
         prompt_for_overall_insight = (
+            f"**[CRITICAL] ABSOLUTELY DO NOT include 'Article [Number]' or any similar numerical reference to articles in the generated analysis. This is a strict requirement for a professional client report.**\n"
+            f"**[RE-EMPHASIS] All insights and examples must refer directly to specific entities, events, or attack types mentioned in the provided articles, WITHOUT citing their article numbers.**\n\n"
             f"The following is a collection of recent cybersecurity news articles. Each article is separated by '--- Article [번호] ---'.\n\n"
             f"{overall_input_text}\n\n"
             f"Based on all these articles, provide a comprehensive overview of the current cybersecurity landscape, "
             f"major trends, and key implications for the industry. "
-            f"Group similar points and synthesize them into 3-5 concise, actionable paragraphs. "
+            f"Group similar points and synthesize them into clear sections. "
             f"Structure your response with clear headings (e.g., '1. [Trend Name]'). "
-            f"For each major trend, within the 'Insight' section, connect the insight with specific, factual examples or relevant entities/events mentioned in the provided articles. "  # <-- 이 줄 수정
+            f"**Each major trend chapter must be at least twice the current length, providing detailed analysis.**\n"
+            f"**For each 'Insight' section, go beyond merely listing phenomena. Deeply analyze and incorporate the following aspects:**\n"
+            f"* **Diverse related cases and patterns inferable from them.**\n"
+            f"* **The practical impact and ripple effects of the trend on the industry as a whole.**\n"
+            f"* **Specific risks and challenges arising from this trend.**\n"
+            f"* **Current limitations in security responses and additional considerations needed.**\n"
+            f"* **Future predictions and potential scenarios.**\n"
+            f"For each major trend, within the '인사이트' section, clearly analyze its positive, neutral aspects, as well as its potential risks, limitations, and unresolved issues. Connect these insights with specific, factual examples or relevant entities/events mentioned in the provided articles. "
             f"Start with a strong summary sentence, then use bullet points or numbered lists for the main insights. "
-            f"Ensure the 'Insight' section directly references real-world events or named entities from the articles to illustrate the point. "  # <-- 이 줄 추가
-            f"Provide an overall conclusion or outlook."
+            f"Ensure the '인사이트' section directly references real-world events or named entities from the articles to illustrate the point. "
+            f"Specifically, go beyond the surface of the articles to deeply analyze and highlight hidden meanings, potential risks, and fundamental unresolved problems within the cybersecurity environment, utilizing critical thinking. This analysis should provide comprehensive insights, not just a mere enumeration."
+            f"\n\n**CAUTION:** All analysis and insights must be strictly based ONLY on the content of the 80 articles provided above. Take extreme care to prevent hallucinations by not adding external information or facts not present in the articles."
+            f"\n\n**Exclude the 'Conclusion' section from the report. The report should consist only of the introduction and the major trend chapters.**"
+            f"\n\n**All responses must be written in Korean. Ensure the Korean context and expressions are as natural and professional as a specialized report.**"
         )
         overall_summary = ""
         try:
@@ -135,7 +147,6 @@ else:
     # 🔹 상위 레벨 종합 인사이트 결과 저장 🔹
     overall_insight_output_file = output_summary_dir / f"ai_overall_insights_single_call_{latest_file.stem}_gemini_flash.txt" # 파일명 변경
     with open(overall_insight_output_file, "w", encoding="utf-8") as f:
-        f.write("--- 상위 레벨 종합 사이버 보안 인사이트 (Gemini Flash API, 단일 호출) ---\n\n")
         f.write(overall_summary)
         f.write("\n\n--- End of Overall Insights ---")
 
